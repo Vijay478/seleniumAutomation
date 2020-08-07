@@ -8,11 +8,13 @@ import java.net.URL;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.ctylor.config.AppProps;
+
 public class UtilServices {
 
 	private static UtilServices single_instance = getInstance();
 	final static Logger logger = LogManager.getLogger(UtilServices.class);
-	private static final String Dir_Path = "images/";
+	private static final String Dir_Path = AppProps.getInstance().getImageDownloadPath();
 
 	public static UtilServices getInstance() {
 		if (single_instance == null)
@@ -33,7 +35,7 @@ public class UtilServices {
 				fileOS.write(data, 0, byteContent);
 
 			}
-			logger.info("Image download path " + imagePath);
+			logger.trace("Image download path " + imagePath);
 		} catch (IOException e) {
 			logger.error("error occured while downloading the image url : " + imgUrl);
 		}

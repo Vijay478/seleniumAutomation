@@ -18,13 +18,14 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class ExcelParser {
-	
+
 	LinkedList<String> missedElements = new LinkedList<String>();
 	final static Logger logger = LogManager.getLogger(ExcelParser.class);
 
 	private static ExcelParser single_instance = getInstance();
 	static Map<Integer, String> column_mapper = new HashMap<Integer, String>();
 	String filePath;
+	String sheetName;
 
 	public static ExcelParser getInstance() {
 		if (single_instance == null)
@@ -40,8 +41,16 @@ public class ExcelParser {
 		this.filePath = filePath;
 	}
 
+	public String getSheetName() {
+		return sheetName;
+	}
+
+	public void setSheetName(String sheetName) {
+		this.sheetName = sheetName;
+	}
+
 	public ResultObj parse() throws IOException {
-		
+
 		ResultObj resObj = new ResultObj();
 		// TODO Auto-generated method stub
 		ArrayList<String> a = new ArrayList<String>();
@@ -50,7 +59,7 @@ public class ExcelParser {
 		int sheets = workbook.getNumberOfSheets();
 		LinkedList<Items> items = new LinkedList<Items>();
 		for (int i = 0; i < sheets; i++) {
-			if (workbook.getSheetName(i).equalsIgnoreCase("sampleData")) {
+			if (workbook.getSheetName(i).equalsIgnoreCase(this.sheetName)) {
 				XSSFSheet sheet = workbook.getSheetAt(i);
 				Iterator<Row> rows = sheet.iterator();
 				Row firstRow = rows.next();
@@ -76,7 +85,6 @@ public class ExcelParser {
 
 		}
 
-
 		resObj.setItems(items);
 		resObj.setSkippedElements(missedElements);
 
@@ -95,7 +103,7 @@ public class ExcelParser {
 					String value = String.valueOf((long) cell.getNumericCellValue());
 					item.setNum(value);
 				} catch (java.lang.IllegalStateException e) {
-					logger.info(" Exception occured in Num for the value : ");
+					logger.trace(" Exception occured in Num for the value : ");
 				}
 
 			} else if ("Class".equalsIgnoreCase(field)) {
@@ -104,7 +112,7 @@ public class ExcelParser {
 					String value = cell.getStringCellValue();
 					item.set_class(value);
 				} catch (java.lang.IllegalStateException e) {
-					logger.info(" Exception occured in Class for the Num : " + item.getNum());
+					logger.trace(" Exception occured in Class for the Num : " + item.getNum());
 				}
 
 			} else if ("Cat".equalsIgnoreCase(field)) {
@@ -112,7 +120,7 @@ public class ExcelParser {
 					String value = cell.getStringCellValue();
 					item.setCat(value);
 				} catch (java.lang.IllegalStateException e) {
-					logger.info(" Exception occured in Cat for the Num : " + item.getNum());
+					logger.trace(" Exception occured in Cat for the Num : " + item.getNum());
 				}
 
 			} else if ("ListPrice".equalsIgnoreCase(field)) {
@@ -121,7 +129,7 @@ public class ExcelParser {
 					String value = String.valueOf((long) cell.getNumericCellValue());
 					item.setLastPrice(value);
 				} catch (java.lang.IllegalStateException e) {
-					logger.info(" Exception occured in ListPrice for the Num : " + item.getNum());
+					logger.trace(" Exception occured in ListPrice for the Num : " + item.getNum());
 				}
 
 			} else if ("StdSellUnitFactor".equalsIgnoreCase(field)) {
@@ -129,7 +137,7 @@ public class ExcelParser {
 					String value = String.valueOf((long) cell.getNumericCellValue());
 					item.setStdSellunitFactor(value);
 				} catch (java.lang.IllegalStateException e) {
-					logger.info(" Exception occured in StdSellUnitFactor for the Num : " + item.getNum());
+					logger.trace(" Exception occured in StdSellUnitFactor for the Num : " + item.getNum());
 				}
 
 			} else if ("ScanCode".equalsIgnoreCase(field)) {
@@ -138,7 +146,7 @@ public class ExcelParser {
 					item.setScanCode(value);
 				} catch (java.lang.IllegalStateException e) {
 					item.setScanCode("NULL");
-					logger.info(" Exception occured in ScanCode due to the illegal value (NULL) for the Num : "
+					logger.trace(" Exception occured in ScanCode due to the illegal value (NULL) for the Num : "
 							+ item.getNum());
 				}
 
@@ -147,7 +155,7 @@ public class ExcelParser {
 					String value = cell.getStringCellValue();
 					item.setScanCode(value);
 				} catch (java.lang.IllegalStateException e) {
-					logger.info(" Exception occured in Description for the Num : " + item.getNum());
+					logger.trace(" Exception occured in Description for the Num : " + item.getNum());
 				}
 
 			}
