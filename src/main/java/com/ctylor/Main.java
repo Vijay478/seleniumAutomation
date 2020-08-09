@@ -4,17 +4,13 @@ import java.awt.Robot;
 //import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Scanner;
 
 //import javax.imageio.ImageIO;
 //import javax.imageio.stream.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.ctylor.config.AppProps;
 import com.ctylor.domain.Items;
@@ -27,16 +23,39 @@ public class Main {
 	final static Logger logger = LogManager.getLogger(Main.class);
 
 	public static void main(String[] args) throws InterruptedException {
+		int Option = 1;
+		String mainUrl = AppProps.getInstance().getMainUrl().toString().trim();
 
-		String[] urls = { "http://texas-wholesale.com/", };
+		String[] urls = { "http://texas-wholesale.com/", "http://www.shopravis.com/", "https://www.barcodelookup.com/",
+				"images.google.com" };
+
+		Scanner scanner = new Scanner(System.in); // Create a Scanner object
+		System.out.println("please choose url from below list ... by entering the s.no ");
+		System.out.println("S.NO       Url");
+		System.out.println("=====================================");
+		for (int i = 0; i < urls.length; i++) {
+			String string = urls[i];
+			System.out.println((i + 1) + "       " + string);
+
+		}
+		System.out.println("please enter number in range [1-4]  :");
+
+		String opt = scanner.nextLine(); // Read user input
+
+		try {
+
+			Option = Integer.parseInt(opt);
+			mainUrl = urls[Option-1];
+			System.out.println(mainUrl);
+		} catch (Exception e) {
+			logger.error("please enter valid option ");
+			return;
+		}
 
 		UtilServices utilServices = UtilServices.getInstance();
 
-// loaddata
+		// loaddata
 		LinkedList<Items> items = loadData();
-
-//		http://texas-wholesale.com/
-		String mainUrl = AppProps.getInstance().getMainUrl().toString().trim();
 
 		if ("http://texas-wholesale.com/".equalsIgnoreCase(mainUrl)) {
 			utilServices.texaswholesales(items);
