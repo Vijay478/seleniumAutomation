@@ -4,11 +4,18 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.ctylor.config.AppProps;
+import com.ctylor.domain.Items;
 
 public class UtilServices {
 
@@ -54,6 +61,68 @@ public class UtilServices {
 		}
 
 		return fileName;
+	}
+
+	public void texaswholesales(LinkedList<Items> items) throws InterruptedException {
+
+
+		// initialize web driver
+				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+				WebDriver driver = new ChromeDriver();
+//		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
+				driver.get(AppProps.getInstance().getMainUrl());
+				driver.manage().window().maximize();
+				driver.findElement(By.xpath(
+						"//*[@class='swal-modal']//div[@class='swal-footer']/div/button[@class='swal-button swal-button--accept']"))
+						.click();
+				Thread.sleep(3000);
+
+				System.out.println("no of records" + items.size());
+
+				boolean isImage;
+
+				for (Items item : items) {
+					isImage = false;
+					String scanCode = item.getScanCode();
+					driver.findElement(By.name("searchfield")).sendKeys(scanCode);
+					driver.findElement(By.name("searchbutton")).click();
+					Thread.sleep(5000);
+					List<WebElement> allImages = driver.findElements(By.tagName("img"));
+					for (WebElement ele : allImages) {
+						String imgUrl = ele.getAttribute("src");
+						if (imgUrl.contains(AppProps.getInstance().getSearchKey())) {
+							logger.trace("ScanCode : " + scanCode + " imgUrl : " + imgUrl);
+							Thread.sleep(3000);
+							isImage = true;
+
+							// download image
+							downloadImage(scanCode, imgUrl);
+
+						}
+
+					}
+					if (!isImage) {
+						logger.info("image not found for ScanCode : " + scanCode);
+					}
+
+				}
+
+				driver.close();
+	}
+
+	public void shopravis(LinkedList<Items> items) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void barcodelookup(LinkedList<Items> items) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void googleImages(LinkedList<Items> items) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -28,53 +28,31 @@ public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		String[] urls = { "http://texas-wholesale.com/", };
+
 		UtilServices utilServices = UtilServices.getInstance();
 
 // loaddata
 		LinkedList<Items> items = loadData();
 
-// initialize web driver
-		System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
-		WebDriver driver = new ChromeDriver();
-//    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
-		driver.get(AppProps.getInstance().getMainUrl());
-		driver.manage().window().maximize();
-		driver.findElement(By.xpath(
-				"//*[@class='swal-modal']//div[@class='swal-footer']/div/button[@class='swal-button swal-button--accept']"))
-				.click();
-		Thread.sleep(3000);
+//		http://texas-wholesale.com/
+		String mainUrl = AppProps.getInstance().getMainUrl().toString().trim();
 
-		System.out.println("no of records" + items.size());
-
-		boolean isImage;
-
-		for (Items item : items) {
-			isImage = false;
-			String scanCode = item.getScanCode();
-			driver.findElement(By.name("searchfield")).sendKeys(scanCode);
-			driver.findElement(By.name("searchbutton")).click();
-			Thread.sleep(5000);
-			List<WebElement> allImages = driver.findElements(By.tagName("img"));
-			for (WebElement ele : allImages) {
-				String imgUrl = ele.getAttribute("src");
-				if (imgUrl.contains(AppProps.getInstance().getSearchKey())) {
-					logger.trace("ScanCode : " + scanCode + " imgUrl : " + imgUrl);
-					Thread.sleep(3000);
-					isImage = true;
-
-					// download image
-					utilServices.downloadImage(scanCode, imgUrl);
-
-				}
-
+		if ("http://texas-wholesale.com/".equalsIgnoreCase(mainUrl)) {
+			utilServices.texaswholesales(items);
+		} else if ("http://www.shopravis.com/".equalsIgnoreCase(mainUrl)) {
+			utilServices.shopravis(items);
+		} else if ("https://www.barcodelookup.com/".equalsIgnoreCase(mainUrl)) {
+			utilServices.barcodelookup(items);
+		} else if ("images.google.com".equalsIgnoreCase(mainUrl)) {
+			utilServices.googleImages(items);
+		} else {
+			logger.info("plaese enter valid site Url");
+			for (int i = 0; i < urls.length; i++) {
+				logger.info(1 + " . " + urls[i]);
 			}
-			if (!isImage) {
-				logger.info("image not found for ScanCode : " + scanCode);
-			}
-
 		}
 
-		driver.close();
 	}
 
 	public static LinkedList<Items> loadData() {
