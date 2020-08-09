@@ -63,14 +63,14 @@ public class UtilServices {
 		return fileName;
 	}
 
-	public void texaswholesales(LinkedList<Items> items) throws InterruptedException {
+	public void texaswholesales(LinkedList<Items> items, String mainUrl) throws InterruptedException {
 
 
 		// initialize web driver
 				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
 				WebDriver driver = new ChromeDriver();
 //		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
-				driver.get(AppProps.getInstance().getMainUrl());
+				driver.get(mainUrl);
 				driver.manage().window().maximize();
 				driver.findElement(By.xpath(
 						"//*[@class='swal-modal']//div[@class='swal-footer']/div/button[@class='swal-button swal-button--accept']"))
@@ -110,19 +110,34 @@ public class UtilServices {
 				driver.close();
 	}
 
-	public void shopravis(LinkedList<Items> items) {
-		// TODO Auto-generated method stub
-		
+	public void shopravis(LinkedList<Items> items, String mainUrl) {
+
+		// initialize web driver
+				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+				WebDriver driver = new ChromeDriver();
+//		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
+				driver.get(mainUrl);
+				driver.manage().window().maximize();		
 	}
 
-	public void barcodelookup(LinkedList<Items> items) {
-		// TODO Auto-generated method stub
-		
+	public void barcodelookup(LinkedList<Items> items, String mainUrl) {
+
+		// initialize web driver
+				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+				WebDriver driver = new ChromeDriver();
+//		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
+				driver.get(mainUrl);
+				driver.manage().window().maximize();		
 	}
 
-	public void googleImages(LinkedList<Items> items) {
-		// TODO Auto-generated method stub
-		
+	public void googleImages(LinkedList<Items> items, String mainUrl) {
+
+		// initialize web driver
+				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+				WebDriver driver = new ChromeDriver();
+//		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
+				driver.get(mainUrl);
+				driver.manage().window().maximize();		
 	}
 
 }

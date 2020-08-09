@@ -58,13 +58,13 @@ public class Main {
 		LinkedList<Items> items = loadData();
 
 		if ("http://texas-wholesale.com/".equalsIgnoreCase(mainUrl)) {
-			utilServices.texaswholesales(items);
+			utilServices.texaswholesales(items,mainUrl);
 		} else if ("http://www.shopravis.com/".equalsIgnoreCase(mainUrl)) {
-			utilServices.shopravis(items);
+			utilServices.shopravis(items,mainUrl);
 		} else if ("https://www.barcodelookup.com/".equalsIgnoreCase(mainUrl)) {
-			utilServices.barcodelookup(items);
+			utilServices.barcodelookup(items,mainUrl);
 		} else if ("images.google.com".equalsIgnoreCase(mainUrl)) {
-			utilServices.googleImages(items);
+			utilServices.googleImages(items,mainUrl);
 		} else {
 			logger.info("plaese enter valid site Url");
 			for (int i = 0; i < urls.length; i++) {
