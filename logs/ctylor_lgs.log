@@ -10,3 +10,48 @@
 [INFO ] 2020-08-07 10:04:44.689 [main] Main - image not found for ScanCode : 4900000044
 [INFO ] 2020-08-07 10:05:15.750 [main] Main - image not found for ScanCode : 4900000045
 [INFO ] 2020-08-07 10:06:10.894 [main] Main - image not found for ScanCode : 4900000764
+[INFO ] 2020-08-10 00:11:47.262 [main] Main - Total no of  Records in excel  : 10
+[INFO ] 2020-08-10 00:11:47.267 [main] Main - total parsed records: 10
+[INFO ] 2020-08-10 00:11:47.267 [main] Main - Total skipped Records : 0
+[INFO ] 2020-08-10 00:12:13.231 [main] UtilServices - image not found for ScanCode : 4900000044
+[INFO ] 2020-08-10 00:12:42.595 [main] UtilServices - image not found for ScanCode : 4900000045
+[INFO ] 2020-08-10 00:13:33.206 [main] UtilServices - image not found for ScanCode : 4900000764
+[INFO ] 2020-08-10 00:15:50.314 [main] Main - Total no of  Records in excel  : 10
+[INFO ] 2020-08-10 00:15:50.317 [main] Main - total parsed records: 10
+[INFO ] 2020-08-10 00:15:50.317 [main] Main - Total skipped Records : 0
+[INFO ] 2020-08-10 00:16:14.989 [main] UtilServices - image not found for ScanCode : 4900000044
+[INFO ] 2020-08-10 00:16:44.258 [main] UtilServices - image not found for ScanCode : 4900000045
+[INFO ] 2020-08-10 00:17:34.646 [main] UtilServices - image not found for ScanCode : 4900000764
+[ERROR] 2020-08-10 00:18:46.812 [main] Main - Exception occured while loading data
+[ERROR] 2020-08-10 00:22:19.510 [main] Main - Exception occured while loading data
+[INFO ] 2020-08-10 00:22:48.845 [main] Main - Total no of  Records in excel  : 10
+[INFO ] 2020-08-10 00:22:48.849 [main] Main - total parsed records: 10
+[INFO ] 2020-08-10 00:22:48.849 [main] Main - Total skipped Records : 0
+[INFO ] 2020-08-10 00:23:14.066 [main] UtilServices - image not found for ScanCode : 4900000044
+[INFO ] 2020-08-10 00:23:43.432 [main] UtilServices - image not found for ScanCode : 4900000045
+[INFO ] 2020-08-10 00:24:34.960 [main] UtilServices - image not found for ScanCode : 4900000764
+[INFO ] 2020-08-10 00:32:30.000 [main] Main - Total no of  Records in excel  : 10
+[INFO ] 2020-08-10 00:32:30.004 [main] Main - total parsed records: 10
+[INFO ] 2020-08-10 00:32:30.005 [main] Main - Total skipped Records : 0
+[INFO ] 2020-08-10 00:32:55.069 [main] UtilServices - image not found for ScanCode : 4900000044
+[INFO ] 2020-08-10 00:33:24.469 [main] UtilServices - image not found for ScanCode : 4900000045
+[INFO ] 2020-08-10 00:34:15.333 [main] UtilServices - image not found for ScanCode : 4900000764
+[INFO ] 2020-08-10 00:35:04.644 [main] Main - Total no of  Records in excel  : 3
+[INFO ] 2020-08-10 00:35:04.647 [main] Main - total parsed records: 0
+[INFO ] 2020-08-10 00:35:04.647 [main] Main - Total skipped Records : 3
+[INFO ] 2020-08-10 00:37:07.212 [main] Main - Total no of  Records in excel  : 3
+[INFO ] 2020-08-10 00:37:07.219 [main] Main - total parsed records: 0
+[INFO ] 2020-08-10 00:37:07.220 [main] Main - Total skipped Records : 3
+[INFO ] 2020-08-10 00:38:24.952 [main] Main - Total no of  Records in excel  : 3
+[INFO ] 2020-08-10 00:38:24.954 [main] Main - total parsed records: 0
+[INFO ] 2020-08-10 00:38:24.954 [main] Main - Total skipped Records : 3
+[INFO ] 2020-08-10 08:52:47.928 [main] Main - Total no of  Records in excel  : 3
+[INFO ] 2020-08-10 08:52:47.931 [main] Main - total parsed records: 0
+[INFO ] 2020-08-10 08:52:47.931 [main] Main - Total skipped Records : 3
+[INFO ] 2020-08-10 09:00:05.844 [main] Main - Total no of  Records in excel  : 10
+[INFO ] 2020-08-10 09:00:05.848 [main] Main - total parsed records: 10
+[INFO ] 2020-08-10 09:00:05.849 [main] Main - Total skipped Records : 0
+[INFO ] 2020-08-10 09:00:42.047 [main] UtilServices - image not found for ScanCode : 4900000044
+[INFO ] 2020-08-10 09:01:11.881 [main] UtilServices - image not found for ScanCode : 4900000045
+[INFO ] 2020-08-10 09:02:03.081 [main] UtilServices - image not found for ScanCode : 4900000764
+[ERROR] 2020-08-10 09:09:52.678 [main] Main - Exception occured while loading data

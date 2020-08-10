@@ -1,21 +1,27 @@
 package com.ctylor.utils;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import com.ctylor.domain.Items;
-import com.ctylor.domain.ResultObj;
-
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.ctylor.config.AppProps;
+import com.ctylor.domain.Items;
+import com.ctylor.domain.ResultObj;
 
 public class ExcelParser {
 
@@ -52,8 +58,6 @@ public class ExcelParser {
 	public ResultObj parse() throws IOException {
 
 		ResultObj resObj = new ResultObj();
-		// TODO Auto-generated method stub
-		ArrayList<String> a = new ArrayList<String>();
 		FileInputStream fo = new FileInputStream(filePath);
 		XSSFWorkbook workbook = new XSSFWorkbook(fo);
 		int sheets = workbook.getNumberOfSheets();
@@ -153,7 +157,7 @@ public class ExcelParser {
 			} else if ("Description".equalsIgnoreCase(field)) {
 				try {
 					String value = cell.getStringCellValue();
-					item.setScanCode(value);
+					item.setDesc(value);
 				} catch (java.lang.IllegalStateException e) {
 					logger.trace(" Exception occured in Description for the Num : " + item.getNum());
 				}
@@ -189,4 +193,58 @@ public class ExcelParser {
 		}
 	}
 
+	public void downloadExcel(LinkedList<Items> missedList) {
+
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet(this.sheetName);
+		String downloadPath = AppProps.getInstance().getFileDownloadPath().toString().trim();
+
+		// create headers
+		Items header = new Items();
+		header.setDesc("Description");
+		header.setScanCode("ScanCode");
+		header.setStdSellunitFactor("StdSellUnitFactor");
+		header.setLastPrice("ListPrice");
+		header.setCat("Cat");
+		header.set_class("Class");
+		header.setNum("NUM");
+		missedList.addFirst(header);
+
+		int rowCount = 0;
+		for (Items item : missedList) {
+			Row row = sheet.createRow(rowCount);
+			writeBook(item, row);
+			rowCount++;
+		}
+
+		try {
+			FileOutputStream outputStream = new FileOutputStream(downloadPath);
+			workbook.write(outputStream);
+		} catch (Exception e) {
+		}
+
+	}
+
+	private void writeBook(Items item, Row row) {
+		Cell cell = row.createCell(0);
+		cell.setCellValue(item.getDesc());
+
+		cell = row.createCell(1);
+		cell.setCellValue(item.getNum());
+
+		cell = row.createCell(2);
+		cell.setCellValue(item.get_class());
+
+		cell = row.createCell(3);
+		cell.setCellValue(item.getCat());
+
+		cell = row.createCell(4);
+		cell.setCellValue(item.getLastPrice());
+
+		cell = row.createCell(5);
+		cell.setCellValue(item.getStdSellunitFactor());
+
+		cell = row.createCell(6);
+		cell.setCellValue(item.getScanCode());
+	}
 }

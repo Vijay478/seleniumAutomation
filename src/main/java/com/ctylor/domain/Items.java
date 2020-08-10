@@ -10,10 +10,18 @@ public class Items {
 	String lastPrice;
 	String stdSellunitFactor;
 	String scanCode;
+	String desc;
 	
 	
 	
 	
+	
+	public String getDesc() {
+		return desc;
+	}
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 	public int getId() {
 		return id;
 	}

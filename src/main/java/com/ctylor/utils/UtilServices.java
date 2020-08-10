@@ -63,81 +63,94 @@ public class UtilServices {
 		return fileName;
 	}
 
-	public void texaswholesales(LinkedList<Items> items, String mainUrl) throws InterruptedException {
+	public LinkedList<Items> texaswholesales(LinkedList<Items> items, String mainUrl) throws InterruptedException {
 
+		LinkedList<Items> missedItems = new LinkedList<Items>();
 
 		// initialize web driver
-				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
-				WebDriver driver = new ChromeDriver();
+		System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+		WebDriver driver = new ChromeDriver();
 //		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
-				driver.get(mainUrl);
-				driver.manage().window().maximize();
-				driver.findElement(By.xpath(
-						"//*[@class='swal-modal']//div[@class='swal-footer']/div/button[@class='swal-button swal-button--accept']"))
-						.click();
-				Thread.sleep(3000);
+		driver.get(mainUrl);
+		driver.manage().window().maximize();
+		driver.findElement(By.xpath(
+				"//*[@class='swal-modal']//div[@class='swal-footer']/div/button[@class='swal-button swal-button--accept']"))
+				.click();
+		Thread.sleep(3000);
 
-				System.out.println("no of records" + items.size());
+		System.out.println("no of records" + items.size());
 
-				boolean isImage;
+		boolean isImage;
 
-				for (Items item : items) {
-					isImage = false;
-					String scanCode = item.getScanCode();
-					driver.findElement(By.name("searchfield")).sendKeys(scanCode);
-					driver.findElement(By.name("searchbutton")).click();
-					Thread.sleep(5000);
-					List<WebElement> allImages = driver.findElements(By.tagName("img"));
-					for (WebElement ele : allImages) {
-						String imgUrl = ele.getAttribute("src");
-						if (imgUrl.contains(AppProps.getInstance().getSearchKey())) {
-							logger.trace("ScanCode : " + scanCode + " imgUrl : " + imgUrl);
-							Thread.sleep(3000);
-							isImage = true;
-
-							// download image
-							downloadImage(scanCode, imgUrl);
-
-						}
-
-					}
-					if (!isImage) {
-						logger.info("image not found for ScanCode : " + scanCode);
-					}
+		for (Items item : items) {
+			isImage = false;
+			String scanCode = item.getScanCode();
+			driver.findElement(By.name("searchfield")).sendKeys(scanCode);
+			driver.findElement(By.name("searchbutton")).click();
+			Thread.sleep(5000);
+			List<WebElement> allImages = driver.findElements(By.tagName("img"));
+			for (WebElement ele : allImages) {
+				String imgUrl = ele.getAttribute("src");
+				if (imgUrl.contains(AppProps.getInstance().getSearchKey())) {
+					logger.trace("ScanCode : " + scanCode + " imgUrl : " + imgUrl);
+					Thread.sleep(3000);
+					isImage = true;
+					// download image
+					downloadImage(scanCode, imgUrl);
+					break;
 
 				}
 
-				driver.close();
+			}
+			if (!isImage) {
+				logger.info("image not found for ScanCode : " + scanCode);
+				missedItems.add(item);
+			}
+
+		}
+
+		driver.close();
+		return missedItems;
 	}
 
-	public void shopravis(LinkedList<Items> items, String mainUrl) {
+	public LinkedList<Items> shopravis(LinkedList<Items> items, String mainUrl) {
+
+		LinkedList<Items> missedItems = new LinkedList<Items>();
 
 		// initialize web driver
-				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
-				WebDriver driver = new ChromeDriver();
+		System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+		WebDriver driver = new ChromeDriver();
 //		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
-				driver.get(mainUrl);
-				driver.manage().window().maximize();		
+		driver.get(mainUrl);
+		driver.manage().window().maximize();
+		return missedItems;
 	}
 
-	public void barcodelookup(LinkedList<Items> items, String mainUrl) {
+	public LinkedList<Items> barcodelookup(LinkedList<Items> items, String mainUrl) {
+
+		LinkedList<Items> missedItems = new LinkedList<Items>();
 
 		// initialize web driver
-				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
-				WebDriver driver = new ChromeDriver();
+		System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+		WebDriver driver = new ChromeDriver();
 //		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
-				driver.get(mainUrl);
-				driver.manage().window().maximize();		
+		driver.get(mainUrl);
+		driver.manage().window().maximize();
+		return missedItems;
 	}
 
-	public void googleImages(LinkedList<Items> items, String mainUrl) {
+	public LinkedList<Items> googleImages(LinkedList<Items> items, String mainUrl) {
+
+		LinkedList<Items> missedItems = new LinkedList<Items>();
 
 		// initialize web driver
-				System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
-				WebDriver driver = new ChromeDriver();
+		System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+		WebDriver driver = new ChromeDriver();
 //		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
-				driver.get(mainUrl);
-				driver.manage().window().maximize();		
+		driver.get(mainUrl);
+		driver.manage().window().maximize();
+		return missedItems;
 	}
+
 
 }

@@ -45,7 +45,7 @@ public class Main {
 		try {
 
 			Option = Integer.parseInt(opt);
-			mainUrl = urls[Option-1];
+			mainUrl = urls[Option - 1];
 			System.out.println(mainUrl);
 		} catch (Exception e) {
 			logger.error("please enter valid option ");
@@ -53,24 +53,26 @@ public class Main {
 		}
 
 		UtilServices utilServices = UtilServices.getInstance();
+		ExcelParser excelServices = ExcelParser.getInstance();
 
 		// loaddata
 		LinkedList<Items> items = loadData();
-
+		LinkedList<Items> missedList = new LinkedList<Items>();
 		if ("http://texas-wholesale.com/".equalsIgnoreCase(mainUrl)) {
-			utilServices.texaswholesales(items,mainUrl);
+			missedList = utilServices.texaswholesales(items, mainUrl);
 		} else if ("http://www.shopravis.com/".equalsIgnoreCase(mainUrl)) {
-			utilServices.shopravis(items,mainUrl);
+			missedList = utilServices.shopravis(items, mainUrl);
 		} else if ("https://www.barcodelookup.com/".equalsIgnoreCase(mainUrl)) {
-			utilServices.barcodelookup(items,mainUrl);
+			missedList = utilServices.barcodelookup(items, mainUrl);
 		} else if ("images.google.com".equalsIgnoreCase(mainUrl)) {
-			utilServices.googleImages(items,mainUrl);
+			missedList = utilServices.googleImages(items, mainUrl);
 		} else {
 			logger.info("plaese enter valid site Url");
 			for (int i = 0; i < urls.length; i++) {
 				logger.info(1 + " . " + urls[i]);
 			}
 		}
+		excelServices.downloadExcel(missedList);
 
 	}
 
