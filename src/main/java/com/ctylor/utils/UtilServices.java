@@ -123,10 +123,12 @@ public class UtilServices {
 //		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
 		driver.get(mainUrl);
 		driver.manage().window().maximize();
-		return missedItems;
+		return items;
 	}
 
-	public LinkedList<Items> barcodelookup(LinkedList<Items> items, String mainUrl) {
+	public LinkedList<Items> barcodelookup(LinkedList<Items> items, String mainUrl) throws InterruptedException {
+		// name="search-input"
+		// class="btn btn-danger btn-search"
 
 		LinkedList<Items> missedItems = new LinkedList<Items>();
 
@@ -136,7 +138,33 @@ public class UtilServices {
 //		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
 		driver.get(mainUrl);
 		driver.manage().window().maximize();
-		return missedItems;
+		boolean isImage;
+
+		for (Items item : items) {
+			isImage = false;
+			String scanCode = item.getScanCode();
+			driver.findElement(By.name("search-input")).sendKeys(scanCode);
+			driver.findElement(By.className("btn btn-danger btn-search")).click();
+			Thread.sleep(5000);
+			List<WebElement> allImages = driver.findElements(By.id("img_preview"));
+
+			for (WebElement ele : allImages) {
+				String imgUrl = ele.getAttribute("src");
+				logger.trace("ScanCode : " + scanCode + " imgUrl : " + imgUrl);
+				Thread.sleep(3000);
+				isImage = true;
+				// download image
+				downloadImage(scanCode, imgUrl);
+				break;
+
+			}
+			if (!isImage) {
+				logger.info("image not found for ScanCode : " + scanCode);
+				missedItems.add(item);
+			}
+
+		}
+		return items;
 	}
 
 	public LinkedList<Items> googleImages(LinkedList<Items> items, String mainUrl) {
@@ -149,8 +177,34 @@ public class UtilServices {
 //		    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
 		driver.get(mainUrl);
 		driver.manage().window().maximize();
-		return missedItems;
+		return items;
 	}
 
+	public void processImages() throws InterruptedException {
+
+//		https://tylercstore.com/wp-admin
+//			admin@tylercstore.com
+//			Texas@1234
+		
+		//user_login
+		//id="user_pass"
+		//wp-submit
+
+		logger.info("image process started....");
+		// initialize web driver
+		System.setProperty("webdriver.chrome.driver", AppProps.getInstance().getChromeDriverPath());
+		WebDriver driver = new ChromeDriver();
+//				    in order to handle authentication pops we need to follow the syntax -- http://username:password@ SiteURL
+		driver.get("https://tylercstore.com/wp-admin");
+		driver.manage().window().maximize();
+		driver.findElement(By.id("user_login")).sendKeys("admin@tylercstore.com");
+		driver.findElement(By.id("user_pass")).sendKeys("Texas@1234");
+		driver.findElement(By.id("wp-submit")).click();
+		
+		
+		
+		Thread.sleep(10000);
+		driver.close();
+	}
 
 }

@@ -23,56 +23,75 @@ public class Main {
 	final static Logger logger = LogManager.getLogger(Main.class);
 
 	public static void main(String[] args) throws InterruptedException {
-		int Option = 1;
-		String mainUrl = AppProps.getInstance().getMainUrl().toString().trim();
-
 		String[] urls = { "http://texas-wholesale.com/", "http://www.shopravis.com/", "https://www.barcodelookup.com/",
-				"images.google.com" };
+		"images.google.com" };
+		
+		String action = AppProps.getInstance().getExcelFileName();
+		
+//		int Option = 1;
+//	
+//
 
-		Scanner scanner = new Scanner(System.in); // Create a Scanner object
-		System.out.println("please choose url from below list ... by entering the s.no ");
-		System.out.println("S.NO       Url");
-		System.out.println("=====================================");
-		for (int i = 0; i < urls.length; i++) {
-			String string = urls[i];
-			System.out.println((i + 1) + "       " + string);
-
-		}
-		System.out.println("please enter number in range [1-4]  :");
-
-		String opt = scanner.nextLine(); // Read user input
-
-		try {
-
-			Option = Integer.parseInt(opt);
-			mainUrl = urls[Option - 1];
-			System.out.println(mainUrl);
-		} catch (Exception e) {
-			logger.error("please enter valid option ");
-			return;
-		}
+//
+//		Scanner scanner = new Scanner(System.in); // Create a Scanner object
+//		System.out.println("please choose url from below list ... by entering the s.no ");
+//		System.out.println("S.NO       Url");
+//		System.out.println("=====================================");
+//		for (int i = 0; i < urls.length; i++) {
+//			String string = urls[i];
+//			System.out.println((i + 1) + "       " + string);
+//
+//		}
+//		System.out.println("please enter number in range [1-4]  :");
+//
+//		String opt = scanner.nextLine(); // Read user input
+//
+//		try {
+//
+//			Option = Integer.parseInt(opt);
+//			mainUrl = urls[Option - 1];
+//			System.out.println(mainUrl);
+//		} catch (Exception e) {
+//			logger.error("please enter valid option ");
+//			return;
+//		}
 
 		UtilServices utilServices = UtilServices.getInstance();
 		ExcelParser excelServices = ExcelParser.getInstance();
-
-		// loaddata
-		LinkedList<Items> items = loadData();
-		LinkedList<Items> missedList = new LinkedList<Items>();
-		if ("http://texas-wholesale.com/".equalsIgnoreCase(mainUrl)) {
-			missedList = utilServices.texaswholesales(items, mainUrl);
-		} else if ("http://www.shopravis.com/".equalsIgnoreCase(mainUrl)) {
-			missedList = utilServices.shopravis(items, mainUrl);
-		} else if ("https://www.barcodelookup.com/".equalsIgnoreCase(mainUrl)) {
-			missedList = utilServices.barcodelookup(items, mainUrl);
-		} else if ("images.google.com".equalsIgnoreCase(mainUrl)) {
-			missedList = utilServices.googleImages(items, mainUrl);
-		} else {
-			logger.info("plaese enter valid site Url");
+		
+		if(action == "download") {
+			
+			// loaddata
+			LinkedList<Items> items = loadData();
+			LinkedList<Items> missedList = items;
+			
 			for (int i = 0; i < urls.length; i++) {
-				logger.info(1 + " . " + urls[i]);
+				String mainUrl = urls[i];
+				if ("http://texas-wholesale.com/".equalsIgnoreCase(mainUrl)) {
+					//missedList = utilServices.texaswholesales(missedList, mainUrl);
+				} else if ("http://www.shopravis.com/".equalsIgnoreCase(mainUrl)) {
+					missedList = utilServices.shopravis(missedList, mainUrl);
+				} else if ("https://www.barcodelookup.com/".equalsIgnoreCase(mainUrl)) {
+					//missedList = utilServices.barcodelookup(missedList, mainUrl);
+				} else if ("images.google.com".equalsIgnoreCase(mainUrl)) {
+				//	missedList = utilServices.googleImages(items, mainUrl);
+				} else {
+					logger.info("plaese enter valid site Url");
+					for (int j = 0; j < urls.length; j++) {
+						logger.info((j+1) +" . " + urls[j]);
+					}
+				}
 			}
+			
+			excelServices.downloadExcel(missedList);
+			
 		}
-		excelServices.downloadExcel(missedList);
+		else {
+			
+			utilServices.processImages();
+		}
+
+		
 
 	}
 

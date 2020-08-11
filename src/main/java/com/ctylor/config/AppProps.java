@@ -9,6 +9,7 @@ public class AppProps {
 	String mainUrl;
 	String searchKey;
 	String fileDownloadPath;
+	String action;
 
 	private AppProps() {
 		// Private constructor to restrict new instances
@@ -19,22 +20,24 @@ public class AppProps {
 		this.mainUrl = PropertiesCache.getInstance().getProperty("main_url");
 		this.searchKey = PropertiesCache.getInstance().getProperty("search_key");
 		this.fileDownloadPath = PropertiesCache.getInstance().getProperty("file_download_path");
-
+		this.action = PropertiesCache.getInstance().getProperty("action");
 	}
 
-	
-	
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
 	public String getFileDownloadPath() {
 		return fileDownloadPath;
 	}
 
-
-
 	public void setFileDownloadPath(String fileDownloadPath) {
 		this.fileDownloadPath = fileDownloadPath;
 	}
-
-
 
 	public String getExcelFileName() {
 		return excelFileName;
