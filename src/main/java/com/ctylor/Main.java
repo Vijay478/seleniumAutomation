@@ -62,7 +62,7 @@ public class Main {
 		if(action == "download") {
 			
 			// loaddata
-			LinkedList<Items> items = loadData();
+			LinkedList<Items> items = utilServices.loadData();
 			LinkedList<Items> missedList = items;
 			
 			for (int i = 0; i < urls.length; i++) {
@@ -95,30 +95,5 @@ public class Main {
 
 	}
 
-	public static LinkedList<Items> loadData() {
-
-		LinkedList<Items> items = new LinkedList<Items>();
-		try {
-			// get data
-			ExcelParser parser = ExcelParser.getInstance();
-			parser.setFilePath(AppProps.getInstance().getExcelFileName());
-			parser.setSheetName(AppProps.getInstance().getExcelSheetName());
-			ResultObj resObj = parser.parse();
-			items = resObj.getItems();
-
-			// total no of records from excel
-			logger.info("Total no of  Records in excel  : "
-					+ (resObj.getItems().size() + resObj.getSkippedElements().size()));
-
-			// parsed records from excel
-			logger.info("total parsed records: " + resObj.getItems().size());
-			// NULL records from excel
-			logger.info("Total skipped Records : " + resObj.getSkippedElements().size());
-
-		} catch (IOException e) {
-			logger.error("Exception occured while loading data");
-		}
-		return items;
-	}
 
 }

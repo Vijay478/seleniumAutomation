@@ -16,6 +16,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.ctylor.config.AppProps;
 import com.ctylor.domain.Items;
+import com.ctylor.domain.ResultObj;
 
 public class UtilServices {
 
@@ -185,10 +186,10 @@ public class UtilServices {
 //		https://tylercstore.com/wp-admin
 //			admin@tylercstore.com
 //			Texas@1234
-		
-		//user_login
-		//id="user_pass"
-		//wp-submit
+
+		// user_login
+		// id="user_pass"
+		// wp-submit
 
 		logger.info("image process started....");
 		// initialize web driver
@@ -200,11 +201,59 @@ public class UtilServices {
 		driver.findElement(By.id("user_login")).sendKeys("admin@tylercstore.com");
 		driver.findElement(By.id("user_pass")).sendKeys("Texas@1234");
 		driver.findElement(By.id("wp-submit")).click();
-		
-		
-		
+
+		driver.findElement(By.xpath("//*[@id='adminmenuwrap']/ul/li[@id='menu-posts-product']/a/div[3]")).click();
+		LinkedList<Items> items = loadData();
+
+		for (Items item : items) {
+
+			String skuCode = item.getNum();
+			String scanCode = item.getScanCode();
+
+			driver.findElement(By.id("post-search-input")).sendKeys(skuCode);
+			driver.findElement(By.id("search-submit")).click();
+			Thread.sleep(3000);
+			driver.findElement(
+					By.xpath("//*[@id='the-list']/tr/td[2]/div[@class='row-actions']/span[2][@class='edit']/a[contains(text(),'Edit')]"));
+			
+//			driver.findElement(
+//					By.xpath("//*[@id='the-list']/tr/td[2]/div[3]/span[2][@class='edit']/a[contains(text(),'Edit')]"))
+//					.click();
+//			driver.findElement(By.xpath(
+//					"//*[@id='woocommerce-product-images']/div/p/a[contains(text(),'Add product gallery images')]"))
+//					.click();
+//			driver.findElement(By.id("media-search-input")).sendKeys(scanCode);
+
+		}
+
 		Thread.sleep(10000);
 		driver.close();
+	}
+
+	public static LinkedList<Items> loadData() {
+
+		LinkedList<Items> items = new LinkedList<Items>();
+		try {
+			// get data
+			ExcelParser parser = ExcelParser.getInstance();
+			parser.setFilePath(AppProps.getInstance().getExcelFileName());
+			parser.setSheetName(AppProps.getInstance().getExcelSheetName());
+			ResultObj resObj = parser.parse();
+			items = resObj.getItems();
+
+			// total no of records from excel
+			logger.info("Total no of  Records in excel  : "
+					+ (resObj.getItems().size() + resObj.getSkippedElements().size()));
+
+			// parsed records from excel
+			logger.info("total parsed records: " + resObj.getItems().size());
+			// NULL records from excel
+			logger.info("Total skipped Records : " + resObj.getSkippedElements().size());
+
+		} catch (IOException e) {
+			logger.error("Exception occured while loading data");
+		}
+		return items;
 	}
 
 }
