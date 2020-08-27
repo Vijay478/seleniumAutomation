@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 import com.ctylor.config.AppProps;
 import com.ctylor.domain.Items;
@@ -213,16 +214,34 @@ public class UtilServices {
 			driver.findElement(By.id("post-search-input")).sendKeys(skuCode);
 			driver.findElement(By.id("search-submit")).click();
 			Thread.sleep(3000);
-			driver.findElement(
-					By.xpath("//*[@id='the-list']/tr/td[2]/div[@class='row-actions']/span[2][@class='edit']/a[contains(text(),'Edit')]"));
-			
-//			driver.findElement(
-//					By.xpath("//*[@id='the-list']/tr/td[2]/div[3]/span[2][@class='edit']/a[contains(text(),'Edit')]"))
-//					.click();
-//			driver.findElement(By.xpath(
-//					"//*[@id='woocommerce-product-images']/div/p/a[contains(text(),'Add product gallery images')]"))
-//					.click();
-//			driver.findElement(By.id("media-search-input")).sendKeys(scanCode);
+
+			String url = driver.findElement(By.xpath(
+					"//*[@class='name column-name has-row-actions column-primary']/div[@class='row-actions']/span[@class='edit']/a[contains(text(),'Edit')]"))
+					.getAttribute("href");
+
+			driver.get(url);
+
+			driver.findElement(By.xpath(
+					"//*[@id='woocommerce-product-images']/div/p/a[contains(text(),'Add product gallery images')]"))
+					.click();
+			driver.findElement(By.id("media-search-input")).sendKeys(scanCode);
+
+//			WebElement imageUL = driver
+//					.findElement(By.xpath("//*[@class='attachments ui-sortable ui-sortable-disabled']"));
+
+			//// *[@class='attachments ui-sortable ui-sortable-disabled']/li
+
+			driver.findElement(By.xpath("//*[@class='attachments ui-sortable ui-sortable-disabled']/li")).click();
+
+			Thread.sleep(1000);
+//			List<WebElement> images = imageUL.findElements(By.tagName("li"));
+//			for (WebElement li : images) {
+//				li.click();
+//			}
+
+			System.out.println("url :" + url);
+			driver.get("https://tylercstore.com/wp-admin/");
+			driver.findElement(By.xpath("//*[@id='adminmenuwrap']/ul/li[@id='menu-posts-product']/a/div[3]")).click();
 
 		}
 
