@@ -68,9 +68,9 @@ public class Main {
 			for (int i = 0; i < urls.length; i++) {
 				String mainUrl = urls[i];
 				if ("http://texas-wholesale.com/".equalsIgnoreCase(mainUrl)) {
-					//missedList = utilServices.texaswholesales(missedList, mainUrl);
+					missedList = utilServices.texaswholesales(missedList, mainUrl);
 				} else if ("http://www.shopravis.com/".equalsIgnoreCase(mainUrl)) {
-					missedList = utilServices.shopravis(missedList, mainUrl);
+					//missedList = utilServices.shopravis(missedList, mainUrl);
 				} else if ("https://www.barcodelookup.com/".equalsIgnoreCase(mainUrl)) {
 					//missedList = utilServices.barcodelookup(missedList, mainUrl);
 				} else if ("images.google.com".equalsIgnoreCase(mainUrl)) {
