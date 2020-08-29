@@ -225,21 +225,12 @@ public class UtilServices {
 					"//*[@id='woocommerce-product-images']/div/p/a[contains(text(),'Add product gallery images')]"))
 					.click();
 			driver.findElement(By.id("media-search-input")).sendKeys(scanCode);
-
-//			WebElement imageUL = driver
-//					.findElement(By.xpath("//*[@class='attachments ui-sortable ui-sortable-disabled']"));
-
-			//// *[@class='attachments ui-sortable ui-sortable-disabled']/li
-
-			driver.findElement(By.xpath("//*[@class='attachments ui-sortable ui-sortable-disabled']/li")).click();
-
-			Thread.sleep(1000);
-//			List<WebElement> images = imageUL.findElements(By.tagName("li"));
-//			for (WebElement li : images) {
-//				li.click();
-//			}
-
-			System.out.println("url :" + url);
+			Thread.sleep(7000);
+			driver.findElement(By.xpath("//div[@class='thumbnail']")).click();
+			Thread.sleep(5000);
+			driver.findElement(By.xpath("//*[@class='media-toolbar-primary search-form']/button[contains(text(),'Add to gallery')]")).click();			
+			Thread.sleep(5000);
+			driver.findElement(By.id("publish")).submit();
 			driver.get("https://tylercstore.com/wp-admin/");
 			driver.findElement(By.xpath("//*[@id='adminmenuwrap']/ul/li[@id='menu-posts-product']/a/div[3]")).click();
 
@@ -248,6 +239,8 @@ public class UtilServices {
 		Thread.sleep(10000);
 		driver.close();
 	}
+
+
 
 	public static LinkedList<Items> loadData() {
 
